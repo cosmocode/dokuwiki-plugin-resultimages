@@ -40,7 +40,9 @@ class action_plugin_resultimages extends DokuWiki_Action_Plugin
         if (empty($img) || !is_file(mediaFN($img))) return;
 
         $event->data['resultBody'] =
-            ['image' => '<a href="' . wl($event->data['page']) . '"><img src="' . ml($img) . '" /></a>'] +
-            $event->data['resultBody'];
+            [
+                'image' => '<a href="' . wl($event->data['page']) . '"><img src="' . ml($img, ['w' => 200]) . '" /></a>'
+            ]
+            + $event->data['resultBody'];
     }
 }
