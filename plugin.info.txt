@@ -1,0 +1,7 @@
+base   resultimages
+author Anna Dabrowska
+email  dokuwiki@cosmocode.de
+date   2020-01-09
+name   resultimages plugin
+desc   Display pages' first images in search results
+url    https://www.dokuwiki.org/plugin:resultimages
