@@ -3,6 +3,7 @@
 use dokuwiki\Extension\ActionPlugin;
 use dokuwiki\Extension\EventHandler;
 use dokuwiki\Extension\Event;
+
 /**
  * DokuWiki Plugin resultimages (Action Component)
  *
@@ -28,15 +29,19 @@ class action_plugin_resultimages extends ActionPlugin
      * Inserts page's first image into the result body
      *
      * @param Event $event event object by reference
-     * @param mixed      $param  [the parameters passed as fifth argument to register_hook() when this
-     *                           handler was registered]
-     *
      * @return void
      */
-    public function addImage(Event $event, $param)
+    public function addImage(Event $event)
     {
         // exit if the current result will not even have a preview snippet
-        if ($event->data['position'] > FT_SNIPPET_NUMBER) return;
+        $maxSnippets = 15; // default
+        if (class_exists('dokuwiki\Search\FulltextSearch')) {
+            $maxSnippets = (new dokuwiki\Search\FulltextSearch())->getMaxSnippets();
+        } elseif (defined('FT_SNIPPET_NUMBER')) {
+            $maxSnippets =  FT_SNIPPET_NUMBER; // present up to Librarian
+        }
+
+        if ($event->data['position'] > $maxSnippets) return;
 
         $img = p_get_metadata($event->data['page'], 'relation firstimage');
 
